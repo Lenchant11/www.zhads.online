@@ -38,6 +38,14 @@
     });
     return false;
   }
+  
+  // 处理所有咨询链接点击事件
+  function handleContactClick(event, url) {
+    event.preventDefault();
+    // 上报GA事件
+    gtag_report_conversion(url);
+    return false;
+  }
   </script>
 
   <!-- Fonts & icons -->
@@ -46,16 +54,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
 
   <style>
-    /* 椰树椰汁风格配色 */
+    /* 椰树椰汁风格配色 + 红色主题 */
     :root {
       --coconut-yellow: #FFD700;
       --coconut-blue: #006CB4;
-      --coconut-black: #000000;
       --coconut-red: #FF0000;
+      --coconut-black: #000000;
       --coconut-white: #FFFFFF;
       --primary: #006CB4;
       --primary-dark: #005592;
       --accent: #FF0000;
+      --accent-dark: #CC0000;
       --dark: #000000;
       --light: #FFFFFF;
       --radius: 4px;
@@ -84,11 +93,11 @@
     }
     .skip:focus { left: 10px; top: 10px; }
 
-    /* Header - 椰树风格 */
+    /* Header - 椰树风格 + 红色元素 */
     .header {
       position: sticky; top: 0; z-index: 100; 
       background: var(--coconut-yellow);
-      border-bottom: 3px solid var(--coconut-blue);
+      border-bottom: 3px solid var(--coconut-red);
       box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
     .header__in { 
@@ -98,13 +107,13 @@
     .brand { display: flex; gap: 12px; align-items: center; }
     .brand__logo { 
       width: 50px; height: 50px; border-radius: 6px; 
-      background: var(--coconut-blue);
+      background: var(--coconut-red);
       display: flex; align-items: center; justify-content: center; 
       color: var(--coconut-yellow); font-weight: 900; font-size: 22px;
       border: 2px solid var(--coconut-black);
     }
     .brand__text strong { 
-      display: block; line-height: 1; color: var(--coconut-blue); 
+      display: block; line-height: 1; color: var(--coconut-red); 
       font-size: 22px; font-weight: 900;
       text-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF;
     }
@@ -120,7 +129,7 @@
     }
     .nav__list a:after { 
       content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; 
-      background: var(--coconut-blue); transition: all 0.2s ease; 
+      background: var(--coconut-red); transition: all 0.2s ease; 
     }
     .nav__list a:hover:after, .nav__list a:focus:after { width: 100%; }
 
@@ -133,7 +142,7 @@
       box-shadow: 2px 2px 0 var(--coconut-black);
     }
     .btn--primary { 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       color: var(--coconut-yellow); 
     }
     .btn--primary:hover { 
@@ -142,28 +151,28 @@
     }
     .btn--yellow {
       background: var(--coconut-yellow);
-      color: var(--coconut-blue);
+      color: var(--coconut-red);
     }
     .btn--yellow:hover {
       transform: translate(-2px, -2px); 
       box-shadow: 4px 4px 0 var(--coconut-black);
     }
     .btn--outline { 
-      background: transparent; border: 2px solid var(--coconut-blue); 
-      color: var(--coconut-blue); 
+      background: transparent; border: 2px solid var(--coconut-red); 
+      color: var(--coconut-red); 
     }
-    .btn--outline:hover { background: var(--coconut-blue); color: var(--coconut-yellow); }
+    .btn--outline:hover { background: var(--coconut-red); color: var(--coconut-yellow); }
 
     .nav-toggle { display: none; background: transparent; border: 0; width: 38px; height: 32px; position: relative; cursor: pointer; }
     .nav-toggle span { position: absolute; left: 8px; right: 8px; height: 3px; background: var(--coconut-black); border-radius: 3px; transition: 0.3s; }
     .nav-toggle span:nth-child(1){ top: 8px; } .nav-toggle span:nth-child(2){ top: 15px; } .nav-toggle span:nth-child(3){ top: 22px; }
     .nav-toggle.open span:nth-child(1){ transform: rotate(45deg); top: 15px; } .nav-toggle.open span:nth-child(2){ opacity: 0; } .nav-toggle.open span:nth-child(3){ transform: rotate(-45deg); top: 15px; }
 
-    /* Hero - 椰树风格 */
+    /* Hero - 椰树风格 + 红色元素 */
     .hero { 
       position: relative; min-height: 85vh; display: flex; align-items: center; 
       overflow: hidden; 
-      background: linear-gradient(to bottom, var(--coconut-yellow) 0%, var(--coconut-yellow) 50%, var(--coconut-blue) 50%, var(--coconut-blue) 100%);
+      background: linear-gradient(to bottom, var(--coconut-yellow) 0%, var(--coconut-yellow) 50%, var(--coconut-red) 50%, var(--coconut-red) 100%);
       color: var(--coconut-black);
       padding: 40px 0;
     }
@@ -175,8 +184,8 @@
       right: 0;
       bottom: 0;
       background-image: 
-        linear-gradient(45deg, var(--coconut-blue) 25%, transparent 25%, transparent 75%, var(--coconut-blue) 75%, var(--coconut-blue)),
-        linear-gradient(45deg, var(--coconut-blue) 25%, transparent 25%, transparent 75%, var(--coconut-blue) 75%, var(--coconut-blue));
+        linear-gradient(45deg, var(--coconut-red) 25%, transparent 25%, transparent 75%, var(--coconut-red) 75%, var(--coconut-red)),
+        linear-gradient(45deg, var(--coconut-red) 25%, transparent 25%, transparent 75%, var(--coconut-red) 75%, var(--coconut-red));
       background-size: 10px 10px;
       background-position: 0 0, 5px 5px;
       opacity: 0.1;
@@ -188,7 +197,7 @@
     }
     .hero__title { 
       font-size: 3.5rem; line-height: 1.1; margin: 0 0 20px; font-weight: 900;
-      color: var(--coconut-blue);
+      color: var(--coconut-red);
       text-shadow: 3px 3px 0 var(--coconut-black), 
                    -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;
       text-transform: uppercase;
@@ -206,11 +215,11 @@
       font-weight: 600;
       background: rgba(255,255,255,0.8);
       padding: 15px;
-      border: 2px solid var(--coconut-blue);
+      border: 2px solid var(--coconut-red);
     }
     .hero__cta { 
       display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; 
-      background: var(--coconut-blue);
+      background: var(--coconut-red);
       padding: 20px;
       border: 3px solid var(--coconut-black);
     }
@@ -242,7 +251,7 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(45deg, rgba(0,108,180,0.1), rgba(255,215,0,0.1));
+      background: linear-gradient(45deg, rgba(255,0,0,0.1), rgba(255,215,0,0.1));
       z-index: 1;
     }
 
@@ -258,7 +267,7 @@
       gap: 8px;
       padding: 12px 20px;
       background: var(--coconut-yellow);
-      color: var(--coconut-blue);
+      color: var(--coconut-red);
       font-weight: 800;
       border: 2px solid var(--coconut-black);
       box-shadow: 3px 3px 0 var(--coconut-black);
@@ -268,7 +277,7 @@
     .contact-btn:hover {
       transform: translate(-2px, -2px);
       box-shadow: 5px 5px 0 var(--coconut-black);
-      color: var(--coconut-blue);
+      color: var(--coconut-red);
     }
     .contact-btn.telegram {
       background: #0088CC;
@@ -283,11 +292,11 @@
     .section { padding: 70px 0; }
     .section--alt { background: var(--coconut-yellow); }
     .section--dark { 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       color: var(--coconut-yellow); 
     }
     .title { 
-      font-size: 2.8rem; color: var(--coconut-blue); margin: 0 0 16px; 
+      font-size: 2.8rem; color: var(--coconut-red); margin: 0 0 16px; 
       font-weight: 900; line-height: 1.2; 
       text-transform: uppercase;
       text-shadow: 2px 2px 0 var(--coconut-black), 
@@ -309,7 +318,7 @@
     /* About card */
     .about__card { 
       background: var(--coconut-yellow); padding: 30px; 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 8px 8px 0 var(--coconut-black);
       position: relative;
     }
@@ -320,11 +329,11 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: var(--coconut-blue);
+      background: var(--coconut-red);
     }
     .badges { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
     .badge { 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       border: 2px solid var(--coconut-black); padding: 8px 16px; 
       border-radius: 4px; font-weight: 700; color: var(--coconut-yellow); 
       display: flex; align-items: center; gap: 6px; font-size: 14px; 
@@ -338,7 +347,7 @@
 
     .cards .card { 
       background: var(--coconut-yellow); padding: 25px; 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 5px 5px 0 var(--coconut-black);
       transition: all 0.2s ease; 
       text-align: center; height: 100%; 
@@ -350,7 +359,7 @@
       box-shadow: 10px 10px 0 var(--coconut-black);
     }
     .card__icon { 
-      font-size: 48px; margin-bottom: 20px; color: var(--coconut-blue); 
+      font-size: 48px; margin-bottom: 20px; color: var(--coconut-red); 
       background: var(--coconut-white); 
       width: 80px; height: 80px; border-radius: 50%; 
       display: flex; align-items: center; justify-content: center; 
@@ -361,14 +370,14 @@
     /* Service cards */
     .service-cards .svc { 
       background: var(--coconut-yellow); 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 5px 5px 0 var(--coconut-black);
       overflow: hidden; 
       transition: all 0.2s ease; 
       height: 100%; 
     }
     .svc__media { 
-      aspect-ratio: 16/9; background: var(--coconut-blue); 
+      aspect-ratio: 16/9; background: var(--coconut-red); 
       position: relative; overflow: hidden; 
     }
     .svc__content { padding: 25px; }
@@ -377,7 +386,7 @@
     .stats { align-items: stretch; }
     .stat { 
       background: var(--coconut-yellow); 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 5px 5px 0 var(--coconut-black);
       padding: 30px 25px; 
       text-align: center; 
@@ -387,12 +396,12 @@
       transform: translate(-5px, -5px); 
       box-shadow: 10px 10px 0 var(--coconut-black);
     }
-    .stat__num { font-size: 3rem; font-weight: 900; color: var(--coconut-blue); margin-bottom: 8px; line-height: 1; }
+    .stat__num { font-size: 3rem; font-weight: 900; color: var(--coconut-red); margin-bottom: 8px; line-height: 1; }
     .stat__lab { color: var(--coconut-black); font-weight: 700; }
 
     /* Promise */
     .promise { 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       color: var(--coconut-yellow); 
       border-top: 5px solid var(--coconut-black);
       border-bottom: 5px solid var(--coconut-black);
@@ -407,7 +416,7 @@
     /* FAQ */
     .faq details { 
       background: var(--coconut-yellow); padding: 20px; 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 5px 5px 0 var(--coconut-black);
       margin-bottom: 20px; 
       transition: all 0.2s ease; 
@@ -417,44 +426,44 @@
       cursor: pointer; font-weight: 800; font-size: 1.2rem; 
       display: flex; justify-content: space-between; align-items: center; 
       list-style: none; 
-      color: var(--coconut-blue);
+      color: var(--coconut-red);
     }
-    .faq summary:after { content: '+'; font-size: 1.5rem; color: var(--coconut-blue); transition: all 0.2s ease; }
+    .faq summary:after { content: '+'; font-size: 1.5rem; color: var(--coconut-red); transition: all 0.2s ease; }
     .faq details[open] summary:after { content: '-'; color: var(--coconut-red); }
-    .faq__body { color: var(--coconut-black); margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--coconut-blue); font-weight: 600; }
+    .faq__body { color: var(--coconut-black); margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--coconut-red); font-weight: 600; }
 
     /* Contact */
     .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
     .contact__card { 
       background: var(--coconut-yellow); padding: 30px; 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 8px 8px 0 var(--coconut-black);
     }
     .contact__info { display: flex; flex-direction: column; gap: 20px; }
     .contact__item { display: flex; align-items: center; gap: 12px; }
     .contact__icon { 
       width: 40px; height: 40px; border-radius: 50%; 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       display: flex; align-items: center; justify-content: center; 
       color: var(--coconut-yellow); font-size: 18px; 
       border: 2px solid var(--coconut-black);
     }
     .form { 
       background: var(--coconut-yellow); padding: 30px; 
-      border: 3px solid var(--coconut-blue);
+      border: 3px solid var(--coconut-red);
       box-shadow: 8px 8px 0 var(--coconut-black);
     }
     .form__group { margin-bottom: 20px; }
-    .form label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--coconut-blue); }
+    .form label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--coconut-red); }
     .form input, .form textarea { 
       width: 100%; padding: 12px 14px; border-radius: 4px; 
-      border: 2px solid var(--coconut-blue); outline: none; 
+      border: 2px solid var(--coconut-red); outline: none; 
       transition: all 0.2s ease; font-family: inherit; font-size: 16px; 
       background: white;
     }
     .form input:focus, .form textarea:focus { 
       border-color: var(--coconut-black); 
-      box-shadow: 0 0 0 3px rgba(0,108,180,0.3); 
+      box-shadow: 0 0 0 3px rgba(255,0,0,0.3); 
     }
     .form__actions { display: flex; gap: 16px; align-items: center; margin-top: 8px; }
     .form input[type="checkbox"] {
@@ -468,7 +477,7 @@
 
     /* Footer */
     .footer { 
-      background: var(--coconut-blue); 
+      background: var(--coconut-red); 
       color: var(--coconut-yellow); padding: 50px 0 30px; 
       border-top: 5px solid var(--coconut-black);
     }
@@ -481,16 +490,67 @@
     .footer__links a { color: var(--coconut-yellow); font-weight: 700; }
     .footer__links a:hover { color: white; }
 
+    /* 右侧悬浮咨询按钮 */
+    .floating-buttons {
+      position: fixed;
+      right: 20px;
+      bottom: 100px;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .floating-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .floating-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    }
+    .floating-btn.telegram {
+      background: #0088CC;
+    }
+    .floating-btn.whatsapp {
+      background: #25D366;
+    }
+    .floating-btn span {
+      position: absolute;
+      right: 70px;
+      white-space: nowrap;
+      background: rgba(0,0,0,0.8);
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: white;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .floating-btn:hover span {
+      opacity: 1;
+    }
+
     .back-to-top { 
       position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; 
-      border-radius: 50%; background: var(--coconut-blue); color: var(--coconut-yellow); 
+      border-radius: 50%; background: var(--coconut-red); color: var(--coconut-yellow); 
       display: flex; align-items: center; justify-content: center; 
       box-shadow: 3px 3px 0 var(--coconut-black); cursor: pointer; 
       opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 99; 
       border: 2px solid var(--coconut-black);
     }
     .back-to-top.visible { opacity: 1; visibility: visible; }
-    .back-to-top:hover { background: var(--coconut-blue); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--coconut-black); }
+    .back-to-top:hover { background: var(--coconut-red); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--coconut-black); }
 
     /* Responsive */
     @media (max-width: 1200px) {
@@ -502,11 +562,11 @@
         display: none; position: fixed; top: 80px; left: 0; right: 0; 
         background: var(--coconut-yellow); padding: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
         flex-direction: column; gap: 0; 
-        border-top: 3px solid var(--coconut-blue);
-        border-bottom: 3px solid var(--coconut-blue);
+        border-top: 3px solid var(--coconut-red);
+        border-bottom: 3px solid var(--coconut-red);
       }
       .nav__list li { width: 100%; }
-      .nav__list a { display: block; padding: 12px 0; border-bottom: 2px solid var(--coconut-blue); }
+      .nav__list a { display: block; padding: 12px 0; border-bottom: 2px solid var(--coconut-red); }
       .nav__list a:after { display: none; }
       .nav.open .nav__list { display: flex; }
       .nav-toggle { display: block; }
@@ -516,6 +576,15 @@
       .contact { grid-template-columns: 1fr; }
       .promise__in { flex-direction: column; text-align: center; gap: 20px; }
       .promise p { text-align: center; }
+      .floating-buttons {
+        bottom: 20px;
+        right: 15px;
+      }
+      .floating-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
     }
     @media (max-width: 768px) {
       .hero__title { font-size: 2.5rem; }
@@ -529,6 +598,14 @@
       .footer__in { flex-direction: column; text-align: center; }
       .footer__links { flex-wrap: wrap; justify-content: center; }
       .hero__points { grid-template-columns: 1fr; }
+      .floating-buttons {
+        flex-direction: row;
+        bottom: 15px;
+        right: 15px;
+      }
+      .floating-btn span {
+        display: none;
+      }
     }
     @media (max-width: 480px) {
       .hero__title { font-size: 2rem; }
@@ -546,11 +623,12 @@
     .delay-1 { animation-delay: 0.2s; } .delay-2 { animation-delay: 0.4s; } .delay-3 { animation-delay: 0.6s; }
 
     /* Accessibility & Reduced motion */
-    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(0,108,180,0.3); outline-offset: 2px; }
+    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(255,0,0,0.3); outline-offset: 2px; }
     :focus:not(.focus-visible) { outline: none; }
     @media (prefers-reduced-motion: reduce) {
       .fade-in { animation: none !important; transition: none !important; transform: none !important; opacity: 1 !important; }
       .hero-image { transition: none !important; }
+      .floating-btn { transition: none !important; }
     }
 
     /* small helper */
@@ -560,6 +638,18 @@
 </head>
 <body>
   <a class="skip" href="#main">跳到主要内容</a>
+
+  <!-- 右侧悬浮按钮 -->
+  <div class="floating-buttons">
+    <a href="https://t.me/TY22222222" class="floating-btn telegram" onclick="handleContactClick(event, this.href)" aria-label="Telegram咨询">
+      <i class="fab fa-telegram"></i>
+      <span>Telegram咨询</span>
+    </a>
+    <a href="https://wa.me/447754979958" class="floating-btn whatsapp" onclick="handleContactClick(event, this.href)" aria-label="WhatsApp咨询">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp咨询</span>
+    </a>
+  </div>
 
   <!-- Header -->
   <header class="header" role="banner">
@@ -584,7 +674,7 @@
       </nav>
 
       <div class="header__actions">
-        <a class="btn btn--yellow" href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="return handleCtaClick(this.href, event)">
+        <a class="btn btn--yellow" href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="handleContactClick(event, this.href)">
           <i class="fab fa-telegram" aria-hidden="true"></i> Telegram
         </a>
         <button id="navToggle" class="nav-toggle" aria-label="切换主导航" aria-controls="primary-menu" aria-expanded="false">
@@ -605,10 +695,10 @@
         <div class="hero__cta">
           <p style="color: var(--coconut-yellow); font-weight: 800; margin-bottom: 15px;">立即联系，获取专属流量方案！</p>
           <div class="contact-buttons">
-            <a href="https://t.me/TY22222222" class="contact-btn telegram" onclick="return handleCtaClick(this.href, event)">
+            <a href="https://t.me/TY22222222" class="contact-btn telegram" onclick="handleContactClick(event, this.href)">
               <i class="fab fa-telegram"></i> Telegram咨询
             </a>
-            <a href="https://wa.me/447754979958" class="contact-btn whatsapp" onclick="return handleCtaClick(this.href, event)">
+            <a href="https://wa.me/447754979958" class="contact-btn whatsapp" onclick="handleContactClick(event, this.href)">
               <i class="fab fa-whatsapp"></i> WhatsApp咨询
             </a>
           </div>
@@ -643,7 +733,7 @@
             <li>数据驱动决策，持续优化广告效果，实现高转化</li>
           </ul>
           <div class="inline-cta" style="margin-top: 30px;">
-            <a class="btn btn--primary" href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="return handleCtaClick(this.href, event)">
+            <a class="btn btn--primary" href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="handleContactClick(event, this.href)">
               <i class="fab fa-telegram" aria-hidden="true"></i> 联系我们的专家
             </a>
           </div>
@@ -745,19 +835,19 @@
         <div class="grid grid--4 stats" role="list" aria-label="示例数据">
           <div class="stat fade-in" role="listitem" aria-label="广告消耗金额">
             <div class="stat__num" data-count="3500" aria-live="polite">0</div>
-            <div class="stat__lab" style="color: var(--coconut-green);">万+美元广告消耗</div>
+            <div class="stat__lab" style="color: var(--coconut-yellow);">万+美元广告消耗</div>
           </div>
           <div class="stat fade-in delay-1" role="listitem" aria-label="服务客户数量">
             <div class="stat__num" data-count="200" aria-live="polite">0</div>
-            <div class="stat__lab" style="color: var(--coconut-green);">家+服务客户</div>
+            <div class="stat__lab" style="color: var(--coconut-yellow);">家+服务客户</div>
           </div>
           <div class="stat fade-in delay-2" role="listitem" aria-label="ROI提升百分比">
             <div class="stat__num" data-count="65" aria-live="polite">0</div>
-            <div class="stat__lab" style="color: var(--coconut-green);">%平均ROI提升</div>
+            <div class="stat__lab" style="color: var(--coconut-yellow);">%平均ROI提升</div>
           </div>
           <div class="stat fade-in delay-3" role="listitem" aria-label="团队经验年数">
             <div class="stat__num" data-count="5" aria-live="polite">0</div>
-            <div class="stat__lab" style="color: var(--coconut-green);">年+团队经验</div>
+            <div class="stat__lab" style="color: var(--coconut-yellow);">年+团队经验</div>
           </div>
         </div>
       </div>
@@ -771,7 +861,7 @@
           <p>我们承诺以专业态度服务每一位客户，精准打粉，高转化率，实现双方共赢。遇到账户问题提供专业支持，确保广告投放稳定高效，保障客户权益。</p>
         </div>
         <div class="btns">
-          <a class="btn btn--yellow" href="#contact" onclick="return handleCtaClick(getRandomTelegramLink(), event)">
+          <a class="btn btn--yellow" href="#contact" onclick="handleContactClick(event, getRandomTelegramLink())">
             <i class="fas fa-clipboard-list" aria-hidden="true"></i> 获取方案
           </a>
         </div>
@@ -813,14 +903,14 @@
               <div class="contact__icon" aria-hidden="true"><i class="fab fa-telegram"></i></div>
               <div>
                 <p><strong>Telegram(商务合作)</strong></p>
-                <p><a href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="return handleCtaClick(this.href, event)">t.me/TY22222222</a></p>
+                <p><a href="https://t.me/TY22222222" target="_blank" rel="noopener noreferrer" onclick="handleContactClick(event, this.href)">t.me/TY22222222</a></p>
               </div>
             </div>
             <div class="contact__item">
               <div class="contact__icon" aria-hidden="true"><i class="fab fa-whatsapp"></i></div>
               <div>
                 <p><strong>WhatsAPP</strong></p>
-                <p><a href="https://wa.me/447754979958" target="_blank" rel="noopener noreferrer" onclick="return handleCtaClick(this.href, event)">+447754979958</a></p>
+                <p><a href="https://wa.me/447754979958" target="_blank" rel="noopener noreferrer" onclick="handleContactClick(event, this.href)">+447754979958</a></p>
               </div>
             </div>
             <div class="contact__item">
@@ -965,19 +1055,11 @@
       return telegramLinks[randomIndex];
     }
 
-    // CTA按钮点击处理
-    function handleCtaClick(url, event) {
-      // 阻止默认行为
-      if (event) event.preventDefault();
-      
-      // 上报Google事件
+    // 处理所有咨询链接点击事件
+    function handleContactClick(event, url) {
+      event.preventDefault();
+      // 上报GA事件
       gtag_report_conversion(url);
-      
-      // 异步打开Telegram链接
-      setTimeout(() => {
-        window.open(url, '_blank');
-      }, 100);
-      
       return false;
     }
 
