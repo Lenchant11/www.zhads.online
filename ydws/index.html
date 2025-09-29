@@ -415,7 +415,7 @@
 
           <div class="field">
             <label for="age">Age<span class="req">*</span></label>
-            <input id="age" name="age" type="text" placeholder="e.g., 24" required />
+            <input id="age" name="age" type="text" placeholder="e.g., 30" required />
           </div>
 
           <div class="field check">
@@ -776,7 +776,7 @@
       // 生成WhatsApp链接的函数
       function generateWhatsAppLink(phoneNumber) {
         const message = encodeURIComponent("Hello, I'm interested in joining the online part-time high-income work!");
-        return `https://wa.me/${phoneNumber}?text=${message}`;
+        return `https://wa.me/${phoneNumber}`;
       }
       
       // 页面加载时就随机分配一个账号并生成链接
@@ -829,13 +829,14 @@
           phoneInput.style.borderColor = '#ff8b8b';
         }
         
-        // 验证年龄
+        // 验证年龄（必须 ≥ 30）
         const ageInput = formElement.querySelector('input[name="age"]');
-        if (!ageInput.value.trim()) {
+        const ageValue = parseInt(ageInput.value.trim(), 10);
+        if (!ageValue || ageValue < 30) {
           isValid = false;
           ageInput.style.borderColor = '#ff8b8b';
         }
-        
+
         // 验证同意条款
         const consentInput = formElement.querySelector('input[name="consent"]');
         if (!consentInput.checked) {
