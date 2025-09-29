@@ -415,7 +415,7 @@
 
           <div class="field">
             <label for="age">Age<span class="req">*</span></label>
-            <input id="age" name="age" type="text" placeholder="At least 30" required />
+            <input id="age" name="age" type="text" placeholder="e.g.,25" required />
           </div>
 
           <div class="field check">
@@ -483,7 +483,7 @@
 
         <div class="field">
           <label for="modal-age">Age<span class="req">*</span></label>
-          <input id="modal-age" name="age" type="text" placeholder="At least 30" required />
+          <input id="modal-age" name="age" type="text" placeholder="e.g.,25" required />
         </div>
 
         <div class="field check">
@@ -761,14 +761,13 @@
       
       // WhatsApp 账号数组（纯号码）
       const whatsappAccounts = [
-        "393780132951",
-        "393780133661",
-        "393780133585",
-        "393780132889",
-        "393780133345",
-        "393780133102",
-        "447353061411",
-        "447352819299"
+        "447873164805",
+        "447518721750",
+        "447518730684",
+        "447424385986",
+        "447466754602",
+        "447424176714",
+        "447518730682"
       ];
       
       // 生成WhatsApp链接的函数
@@ -827,10 +826,10 @@
           phoneInput.style.borderColor = '#ff8b8b';
         }
         
-        // 验证年龄（必须 ≥ 30）
+        // 验证年龄（必须 ≥ 18）
         const ageInput = formElement.querySelector('input[name="age"]');
         const ageValue = parseInt(ageInput.value.trim(), 10);
-        if (!ageValue || ageValue < 30) {
+        if (!ageValue || ageValue < 18) {
           isValid = false;
           ageInput.style.borderColor = '#ff8b8b';
         }
